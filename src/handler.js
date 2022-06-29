@@ -1,4 +1,6 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable eqeqeq */
+/* eslint-disable linebreak-style */
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
@@ -52,9 +54,9 @@ const addBookHandler = (request, h) => {
   if (isSuccess) { // kalo true
     const response = h.response({ // handler response
       status: 'success', // statusnya
-      message: 'Catatan berhasil ditambahkan', // message
+      message: 'Buku berhasil ditambahkan', // message
       data: {
-        noteId: id,
+        bookId: id,
       },
     });
     response.code(201); // code 201 berarti berhasil
@@ -107,7 +109,7 @@ const getAllBooksHandler = (request, h) => {
   }
 
   if (!name && reading && !finished) {
-    const booksByReading = books.filter((book) => book.reading === reading);
+    const booksByReading = books.filter((book) => book.reading == reading);
 
     const response = h.response({
       status: 'success',
@@ -124,7 +126,7 @@ const getAllBooksHandler = (request, h) => {
   }
 
   if (!name && !reading && finished) {
-    const booksByFinished = books.filter((book) => book.finished === finished);
+    const booksByFinished = books.filter((book) => book.finished == finished);
 
     const response = h.response({
       status: 'success',
@@ -141,17 +143,19 @@ const getAllBooksHandler = (request, h) => {
   }
 
   const response = h.response({
-    status: 'fail',
-    message: 'Gagal mendapatkan data',
+    status: 'success',
+    data: {
+      books,
+    },
   });
-  response.code(500);
+  response.code(200);
   return response;
 };
 
 const getBookByIdHandler = (request, h) => {
-  const { id } = request.params;
+  const { bookId } = request.params;
 
-  const book = books.filter((b) => b.id === id)[0];
+  const book = books.filter((b) => b.id === bookId)[0];
 
   if (book !== undefined) {
     return {
@@ -171,16 +175,16 @@ const getBookByIdHandler = (request, h) => {
 };
 
 const editBookByIdHandler = (request, h) => {
-  const { id } = request.params;
+  const { bookId } = request.params;
 
   const {
     name, year, author, summary, publisher, pageCount, readPage, reading,
   } = request.payload;
   const updatedAt = new Date().toISOString();
 
-  const index = books.findIndex((book) => book.id === id);
+  const index = books.findIndex((book) => book.id === bookId);
 
-  if (name === null) {
+  if (name == null) {
     const response = h.response({
       status: 'fail',
       message: 'Gagal memperbarui buku. Mohon isi nama buku',
@@ -227,10 +231,11 @@ const editBookByIdHandler = (request, h) => {
 };
 
 const deleteBookByIdHandler = (request, h) => {
-  const { id } = request.params; // ambil nilai id pake request.params
+  // ambil nilai bookId pake request.params karena di url nya {bookId}
+  const { bookId } = request.params;
 
   // dapetin index array pada object sesuai id
-  const index = books.findIndex((book) => book.id === id);
+  const index = books.findIndex((book) => book.id === bookId);
 
   if (index !== -1) {
     books.splice(index, 1); // menghapus data pada array berdasarkan index
