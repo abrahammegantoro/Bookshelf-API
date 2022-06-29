@@ -1,6 +1,4 @@
 /* eslint-disable linebreak-style */
-/* eslint-disable consistent-return */
-/* eslint-disable linebreak-style */
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
