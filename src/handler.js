@@ -1,6 +1,3 @@
-/* eslint-disable linebreak-style */
-/* eslint-disable eqeqeq */
-/* eslint-disable linebreak-style */
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
@@ -73,14 +70,14 @@ const addBookHandler = (request, h) => {
 const getAllBooksHandler = (request, h) => {
   const { name, reading, finished } = request.query;
 
-  if (!reading && !finished && !name) {
+  if (!name && !reading && !finished ) {
     const response = h.response({
       status: 'success',
       data: {
-        books: books.map((book) => ({
-          id: book.id,
-          name: book.name,
-          publisher: book.publisher,
+        books: books.map((b) => ({
+          id: b.id,
+          name: b.name,
+          publisher: b.publisher,
         })),
       },
     });
@@ -97,10 +94,10 @@ const getAllBooksHandler = (request, h) => {
     const response = h.response({
       status: 'success',
       data: {
-        books: booksByName.map((book) => ({
-          id: book.id,
-          name: book.name,
-          publisher: book.publisher,
+        books: booksByName.map((b) => ({
+          id: b.id,
+          name: b.name,
+          publisher: b.publisher,
         })),
       },
     });
@@ -114,10 +111,10 @@ const getAllBooksHandler = (request, h) => {
     const response = h.response({
       status: 'success',
       data: {
-        books: booksByReading.map((book) => ({
-          id: book.id,
-          name: book.name,
-          publisher: book.publisher,
+        books: booksByReading.map((b) => ({
+          id: b.id,
+          name: b.name,
+          publisher: b.publisher,
         })),
       },
     });
@@ -131,10 +128,10 @@ const getAllBooksHandler = (request, h) => {
     const response = h.response({
       status: 'success',
       data: {
-        books: booksByFinished.map((book) => ({
-          id: book.id,
-          name: book.name,
-          publisher: book.publisher,
+        books: booksByFinished.map((b) => ({
+          id: b.id,
+          name: b.name,
+          publisher: b.publisher,
         })),
       },
     });
